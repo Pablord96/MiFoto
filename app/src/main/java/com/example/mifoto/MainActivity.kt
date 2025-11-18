@@ -5,14 +5,17 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,7 +41,16 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MiFoto() {
-    Box(modifier = Modifier.fillMaxSize().padding(20.dp)){
+    //Declaramos una variable observable para almacenar el color de fondo
+    //val colorFondo = remember {mutableStateOf(Color.Blue)}
+    var colorFondo by remember { mutableStateOf(Color.Blue) }
+
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .padding(20.dp)
+        //.background(colorFondo.value))
+        .background(colorFondo))
+    {
         Image(
             painter = painterResource(R.drawable.philadelphia_eagles_logo_svg),
             contentDescription = "Philadelphia Eagles",
@@ -56,11 +68,18 @@ fun MiFoto() {
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(16.dp),
-            onClick = { /*TODO*/ }
+            onClick = { colorFondo = colorAleatorio() }
         ) {
             Text(text = "Cambiar Fondo")
         }
     }
+}
+
+fun colorAleatorio(): Color {
+    val red = (0..255).random()
+    val green = (0..255).random()
+    val blue = (0..255).random()
+    return Color(red, green, blue)
 }
 
 @Preview(showBackground = true)
